@@ -1,0 +1,3 @@
+name: ExpBottles
+main: ca.mickealn.expbottles.ExpBottles
+version: ${project.version}
