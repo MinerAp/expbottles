@@ -21,21 +21,14 @@ public final class ExpBottlesListener implements Listener {
             ItemStack stack = player.getItemInHand();
             int originalExp = player.getTotalExperience();
             final int amountOfBottles = player.getTotalExperience() / expPerBottle;
-            if (player.getLevel() < 1) {
+            if (player.getTotalExperience() < expPerBottle) {
                 player.sendMessage(ChatColor.DARK_RED + "You do not have enough EXP!");
-            } else if (amountOfBottles <= stack.getAmount()) { // If they have more bottles then they can create into EXP bottles and need to get some back
-                int playerNewExp = player.getTotalExperience() % expPerBottle; // Getting the new experience level to give back to the player.
+            } else {
                 player.setLevel(0); // Set everything to 0 to prevent doubling of EXP
                 player.setTotalExperience(0);
-                player.giveExp(playerNewExp);
-                player.setItemInHand(new ItemStack(Material.EXP_BOTTLE, amountOfBottles));
-                player.getWorld().dropItem(player.getLocation(), new ItemStack(Material.GLASS_BOTTLE, (stack.getAmount() - amountOfBottles)));
-
-            } else { // if they have more EXP/expPerBottle than bottles
-                player.setItemInHand(new ItemStack(Material.EXP_BOTTLE, stack.getAmount()));
-                player.setLevel(0); // Set everything to 0 to prevent doubling of EXP
-                player.setTotalExperience(0);
-                player.giveExp(originalExp - (stack.getAmount() * expPerBottle));
+                player.setItemInHand(new ItemStack(Material.EXP_BOTTLE, Math.min(amountOfBottles, stack.getAmount())));
+                player.getWorld().dropItem(player.getLocation(), new ItemStack(Material.GLASS_BOTTLE, Math.max(0,(stack.getAmount() - amountOfBottles))));
+                player.giveExp((Math.max(originalExp - (stack.getAmount() * expPerBottle), 0)));
             }
         }
     }
