@@ -27,8 +27,10 @@ public final class ExpBottlesListener implements Listener {
                 player.setLevel(0); // Set everything to 0 to prevent doubling of EXP
                 player.setTotalExperience(0);
                 player.setItemInHand(new ItemStack(Material.EXP_BOTTLE, Math.min(amountOfBottles, stack.getAmount())));
-                player.getWorld().dropItem(player.getLocation(), new ItemStack(Material.GLASS_BOTTLE, Math.max(0,(stack.getAmount() - amountOfBottles))));
-                player.giveExp((Math.max(originalExp - (stack.getAmount() * expPerBottle), 0)));
+                if (stack.getAmount() - amountOfBottles > 0) {
+                    player.getWorld().dropItem(player.getLocation(), new ItemStack(Material.GLASS_BOTTLE, (stack.getAmount() - amountOfBottles)));
+                }
+                player.giveExp(Math.max(0, (originalExp - (Math.min(amountOfBottles, stack.getAmount()) * expPerBottle))));
             }
         }
     }
