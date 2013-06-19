@@ -10,25 +10,27 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 
 public final class ExpBottlesListener implements Listener {
-    public final int expPerBottle = 17;
+    private final int expPerBottle = 17;
 
     @EventHandler
     public void onOpenEnhantTable(InventoryOpenEvent event) {
-        Player player = (Player) event.getPlayer();
-        if (InventoryType.ENCHANTING.equals(event.getInventory().getType()) && Material.GLASS_BOTTLE.equals(player.getItemInHand().getType())) {
-            event.setCancelled(true);
-            int stackAmount = player.getItemInHand().getAmount();
+        if (event.getPlayer() instanceof Player && InventoryType.ENCHANTING.equals(event.getInventory().getType()) && Material.GLASS_BOTTLE.equals(event.getPlayer().getItemInHand().getType())) {
+            Player player = (Player) event.getPlayer();
             int originalExp = player.getTotalExperience();
-            int amountOfBottles = originalExp / expPerBottle;
-            if (originalExp >= expPerBottle) {
+            int numEnchantedBottles = Math.min(originalExp / expPerBottle, player.getItemInHand().getAmount());
+
+            if (numEnchantedBottles > 0) {
                 player.setLevel(0); // Set everything to 0 to prevent doubling of EXP
                 player.setTotalExperience(0);
-                player.setItemInHand(new ItemStack(Material.EXP_BOTTLE, Math.min(amountOfBottles, stackAmount)));
-                if (stackAmount - amountOfBottles > 0) {
-                    player.getWorld().dropItem(player.getLocation(), new ItemStack(Material.GLASS_BOTTLE, stackAmount - amountOfBottles));
+
+                player.setItemInHand(new ItemStack(Material.EXP_BOTTLE, numEnchantedBottles));
+                player.giveExp(Math.max(0, originalExp - numEnchantedBottles * expPerBottle));
+                if (numEnchantedBottles > 0) {
+                    player.getWorld().dropItem(player.getLocation(), new ItemStack(Material.GLASS_BOTTLE, numEnchantedBottles));
                 }
-                player.giveExp(Math.max(0, originalExp - (Math.min(amountOfBottles, stackAmount) * expPerBottle)));
             }
+
+            event.setCancelled(true);
         }
     }
 

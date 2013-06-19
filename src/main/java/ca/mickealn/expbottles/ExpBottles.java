@@ -7,9 +7,7 @@ import ca.mickealn.expbottles.ExpBottlesListener;
 
 public final class ExpBottles extends JavaPlugin {
 
-    ExpBottlesListener enchantListener = new ExpBottlesListener();
-
     public void onEnable() {
-        Bukkit.getPluginManager().registerEvents(enchantListener, this);
+        Bukkit.getPluginManager().registerEvents(new ExpBottlesListener(), this);
     }
 }
