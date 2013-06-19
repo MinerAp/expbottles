@@ -15,19 +15,19 @@ public final class ExpBottlesListener implements Listener {
     @EventHandler
     public void onOpenEnhantTable(InventoryOpenEvent event) {
         Player player = (Player) event.getPlayer();
-        if (event.getInventory().getType() == InventoryType.ENCHANTING && player.getItemInHand().getType() == Material.GLASS_BOTTLE) {
+        if (InventoryType.ENCHANTING.equals(event.getInventory().getType()) && Material.GLASS_BOTTLE.equals(player.getItemInHand().getType())) {
             event.setCancelled(true);
             int stackAmount = player.getItemInHand().getAmount();
             int originalExp = player.getTotalExperience();
-            final int amountOfBottles = player.getTotalExperience() / expPerBottle;
-            if (player.getTotalExperience() >= expPerBottle) {
+            int amountOfBottles = originalExp / expPerBottle;
+            if (originalExp >= expPerBottle) {
                 player.setLevel(0); // Set everything to 0 to prevent doubling of EXP
                 player.setTotalExperience(0);
                 player.setItemInHand(new ItemStack(Material.EXP_BOTTLE, Math.min(amountOfBottles, stackAmount)));
                 if (stackAmount - amountOfBottles > 0) {
                     player.getWorld().dropItem(player.getLocation(), new ItemStack(Material.GLASS_BOTTLE, stackAmount - amountOfBottles));
                 }
-                player.giveExp(Math.max(0, (originalExp - (Math.min(amountOfBottles, stackAmount) * expPerBottle))));
+                player.giveExp(Math.max(0, originalExp - (Math.min(amountOfBottles, stackAmount) * expPerBottle)));
             }
         }
     }
