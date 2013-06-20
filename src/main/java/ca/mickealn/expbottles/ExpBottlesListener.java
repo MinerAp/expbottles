@@ -18,15 +18,15 @@ public final class ExpBottlesListener implements Listener {
             Player player = (Player) event.getPlayer();
             int originalExp = player.getTotalExperience();
             int numEnchantedBottles = Math.min(originalExp / expPerBottle, player.getItemInHand().getAmount());
+            int stackSize = player.getItemInHand().getAmount();
 
             if (numEnchantedBottles > 0) {
                 player.setLevel(0); // Set everything to 0 to prevent doubling of EXP
                 player.setTotalExperience(0);
-
                 player.setItemInHand(new ItemStack(Material.EXP_BOTTLE, numEnchantedBottles));
                 player.giveExp(Math.max(0, originalExp - numEnchantedBottles * expPerBottle));
                 if (numEnchantedBottles > 0) {
-                    player.getWorld().dropItem(player.getLocation(), new ItemStack(Material.GLASS_BOTTLE, numEnchantedBottles));
+                    player.getWorld().dropItem(player.getLocation(), new ItemStack(Material.GLASS_BOTTLE, stackSize - numEnchantedBottles));
                 }
             }
 
