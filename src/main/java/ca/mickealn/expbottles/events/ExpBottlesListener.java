@@ -23,15 +23,27 @@ public final class ExpBottlesListener implements Listener {
     public void onOpenEnhantTable(InventoryOpenEvent event) {
         if (event.getPlayer() instanceof Player && InventoryType.ENCHANTING.equals(event.getInventory().getType()) && Material.GLASS_BOTTLE.equals(event.getPlayer().getItemInHand().getType())) {
             Player player = (Player) event.getPlayer();
-            int originalExp = player.getTotalExperience();
+            int originalLevel = player.getLevel();
+            double originalExp = player.getTotalExperience();
+
+            if (originalLevel >= 31) {
+                originalExp = 3.5 * originalLevel * originalLevel - 151.5 * originalLevel + 2220;
+            } else if (originalLevel >= 17) {
+                originalExp = 1.5 * originalLevel * originalLevel - 29.5 * originalLevel + 360;
+            } else {
+                originalExp = originalLevel * 17;
+            }
+
+            originalExp += player.getExpToLevel() * player.getExp();
+
             int bottleCount = player.getItemInHand().getAmount();
-            int numEnchantedBottles = Math.min(originalExp / expPerBottle, bottleCount);
+            int numEnchantedBottles = Math.min((int) (originalExp / expPerBottle), bottleCount);
 
             if (numEnchantedBottles > 0) {
                 player.setLevel(0); // Set everything to 0 to prevent doubling of EXP
                 player.setTotalExperience(0);
 
-                int newTotalExperience = originalExp - numEnchantedBottles * expPerBottle;
+                int newTotalExperience = (int) (originalExp - numEnchantedBottles * expPerBottle);
                 double newLevel, experienceToCurrentLevel;
 
                 if (newTotalExperience >= 887) {
