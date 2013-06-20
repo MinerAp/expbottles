@@ -1,3 +1,5 @@
 name: ExpBottles
-main: ca.mickealn.expbottles.ExpBottles
 version: ${project.version}
+load: POSTWORLD
+author: Mickeal Nevakshonoff
+main: ca.mickealn.expbottles.ExpBottles

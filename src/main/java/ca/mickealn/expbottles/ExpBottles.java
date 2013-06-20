@@ -1,13 +1,15 @@
 package ca.mickealn.expbottles;
 
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.java.JavaPlugin;
+import ca.mickealn.expbottles.events.ExpBottlesListener;
+import ca.mickealn.expbottles.util.ExpBottlesConfigurationContext;
 
-import ca.mickealn.expbottles.ExpBottlesListener;
+import com.amshulman.mbapi.MbapiPlugin;
 
-public final class ExpBottles extends JavaPlugin {
+public final class ExpBottles extends MbapiPlugin {
 
     public void onEnable() {
-        Bukkit.getPluginManager().registerEvents(new ExpBottlesListener(), this);
+        registerEventHandler(new ExpBottlesListener(new ExpBottlesConfigurationContext(this)));
+
+        super.onEnable();
     }
 }

@@ -1,4 +1,4 @@
-package ca.mickealn.expbottles;
+package ca.mickealn.expbottles.events;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -9,8 +9,15 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 
+import ca.mickealn.expbottles.util.ExpBottlesConfigurationContext;
+
 public final class ExpBottlesListener implements Listener {
-    private final int expPerBottle = 17;
+
+    private final int expPerBottle;
+
+    public ExpBottlesListener(ExpBottlesConfigurationContext configurationContext) {
+        expPerBottle = configurationContext.expPerBottle;
+    }
 
     @EventHandler
     public void onOpenEnhantTable(InventoryOpenEvent event) {
