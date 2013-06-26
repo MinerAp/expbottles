@@ -6,7 +6,7 @@
 	<groupId>ca.mickealn</groupId>
 	<artifactId>expbottles</artifactId>
 	<version>${mbapi.version}.4</version>
-	<name>ExpBottles</name>
+	<name>Exp Bottles</name>
 
 	<parent>
 		<groupId>com.amshulman</groupId>

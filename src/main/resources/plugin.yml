@@ -1,4 +1,4 @@
-name: ExpBottles
+name: Exp Bottles
 version: ${project.version}
 load: POSTWORLD
 author: Mickeal Nevakshonoff
