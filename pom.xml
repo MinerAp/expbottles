@@ -5,20 +5,20 @@
 
 	<groupId>ca.mickealn</groupId>
 	<artifactId>expbottles</artifactId>
-	<version>${mbapi.version}.4</version>
+	<version>${mbapi.version}.0</version>
 	<name>Exp Bottles</name>
 
 	<parent>
 		<groupId>com.amshulman</groupId>
 		<artifactId>bukkit-parent</artifactId>
-		<version>0.10</version>
+		<version>0.15</version>
 	</parent>
 
 	<repositories>
 		<repository>
 			<id>minerap-repo</id>
 			<name>MinerAp</name>
-			<url>https://www.minerap.com/repository/</url>
+			<url>http://repo.minerap.com/</url>
 		</repository>
 	</repositories>
 
