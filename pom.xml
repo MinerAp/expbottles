@@ -3,16 +3,16 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>ca.mickealn</groupId>
-	<artifactId>expbottles</artifactId>
-	<version>${mbapi.version}.0</version>
-	<name>ExpBottles</name>
-
 	<parent>
 		<groupId>com.amshulman</groupId>
 		<artifactId>bukkit-parent</artifactId>
 		<version>0.20</version>
 	</parent>
+
+	<groupId>ca.mickealn</groupId>
+	<artifactId>expbottles</artifactId>
+	<version>${mbapi.version}.0</version>
+	<name>ExpBottles</name>
 
 	<repositories>
 		<repository>
