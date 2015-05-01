@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>com.amshulman</groupId>
-		<artifactId>bukkit-parent</artifactId>
-		<version>0.20</version>
-	</parent>
+    <parent>
+        <groupId>com.amshulman</groupId>
+        <artifactId>bukkit-parent</artifactId>
+        <version>0.20</version>
+    </parent>
 
-	<groupId>ca.mickealn</groupId>
-	<artifactId>expbottles</artifactId>
-	<version>${mbapi.version}.0</version>
-	<name>ExpBottles</name>
+    <groupId>ca.mickealn</groupId>
+    <artifactId>expbottles</artifactId>
+    <version>${mbapi.version}.0</version>
+    <name>ExpBottles</name>
 
-	<repositories>
-		<repository>
-			<id>minerap-repo</id>
-			<name>MinerAp</name>
+    <repositories>
+        <repository>
+            <id>minerap-repo</id>
+            <name>MinerAp</name>
             <url>http://repo.minerap.com/content/groups/public/</url>
-		</repository>
-	</repositories>
+        </repository>
+    </repositories>
 
     <dependencies>
         <!-- Spigot -->
-		<dependency>
-			<groupId>org.spigotmc</groupId>
-			<artifactId>spigot-api</artifactId>
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
         </dependency>
         <!-- Mbapi -->
-		<dependency>
-			<groupId>com.amshulman</groupId>
-			<artifactId>mbapi</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>com.amshulman</groupId>
+            <artifactId>mbapi</artifactId>
+        </dependency>
         <!-- Tests -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-	</dependencies>
+    </dependencies>
 
     <profiles>
         <profile>
