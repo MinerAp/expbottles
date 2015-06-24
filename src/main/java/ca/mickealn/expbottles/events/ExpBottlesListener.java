@@ -24,17 +24,20 @@ public final class ExpBottlesListener implements Listener {
         if (event.getPlayer() instanceof Player && InventoryType.ENCHANTING.equals(event.getInventory().getType()) && Material.GLASS_BOTTLE.equals(event.getPlayer().getItemInHand().getType())) {
             Player player = (Player) event.getPlayer();
             int originalLevel = player.getLevel();
-            double originalExp = player.getTotalExperience();
+            double originalExp;
 
             if (originalLevel >= 31) {
-                originalExp = 3.5 * originalLevel * originalLevel - 151.5 * originalLevel + 2220;
-            } else if (originalLevel >= 17) {
-                originalExp = 1.5 * originalLevel * originalLevel - 29.5 * originalLevel + 360;
+                originalExp = 4.5 * originalLevel * originalLevel - 162.5 * originalLevel + 2220;
+                originalExp += player.getExp() * (9 * originalLevel - 158);
+            } else if (originalLevel >= 16) {
+                originalExp = 2.5 * originalLevel * originalLevel - 40.5 * originalLevel + 360;
+                originalExp += player.getExp() * (5 * originalLevel - 38);
             } else {
-                originalExp = originalLevel * 17;
+                originalExp = originalLevel * originalLevel + 6 * originalLevel;
+                originalExp += player.getExp() * (2 * originalLevel + 7);
             }
 
-            originalExp += player.getExpToLevel() * player.getExp();
+            originalExp = Math.round(originalExp);
 
             int bottleCount = player.getItemInHand().getAmount();
             int numEnchantedBottles = Math.min((int) (originalExp / expPerBottle), bottleCount);
@@ -44,17 +47,18 @@ public final class ExpBottlesListener implements Listener {
                 player.setTotalExperience(0);
 
                 int newTotalExperience = (int) (originalExp - numEnchantedBottles * expPerBottle);
-                double newLevel, experienceToCurrentLevel;
+                int newLevel;
+                double experienceToCurrentLevel;
 
-                if (newTotalExperience >= 887) {
-                    newLevel = (303 + Math.sqrt(56 * newTotalExperience - 32511)) / 14;
-                    experienceToCurrentLevel = 3.5 * newLevel * newLevel - 151.5 * newLevel + 2220;
-                } else if (newTotalExperience >= 292) {
-                    newLevel = (59 + Math.sqrt(24 * newTotalExperience - 5159)) / 6;
-                    experienceToCurrentLevel = 1.5 * newLevel * newLevel - 29.5 * newLevel + 360;
+                if (newTotalExperience >= 1507) {
+                    newLevel = (int) ((Math.sqrt(72 * newTotalExperience - 54215) + 325) / 18);
+                    experienceToCurrentLevel = 4.5 * newLevel * newLevel - 162.5 * newLevel + 2220;
+                } else if (newTotalExperience >= 352) {
+                    newLevel = (int) ((Math.sqrt(40 * newTotalExperience - 7839) + 81) / 10);
+                    experienceToCurrentLevel = 2.5 * newLevel * newLevel - 40.5 * newLevel + 360;
                 } else {
-                    newLevel = newTotalExperience / 17;
-                    experienceToCurrentLevel = newLevel * 17;
+                    newLevel = (int) (Math.sqrt(newTotalExperience + 9) - 3);
+                    experienceToCurrentLevel = newLevel * newLevel + 6 * newLevel;
                 }
 
                 player.setTotalExperience(newTotalExperience);
