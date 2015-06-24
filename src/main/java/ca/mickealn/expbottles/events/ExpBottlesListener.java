@@ -24,20 +24,7 @@ public final class ExpBottlesListener implements Listener {
         if (event.getPlayer() instanceof Player && InventoryType.ENCHANTING.equals(event.getInventory().getType()) && Material.GLASS_BOTTLE.equals(event.getPlayer().getItemInHand().getType())) {
             Player player = (Player) event.getPlayer();
             int originalLevel = player.getLevel();
-            double originalExp;
-
-            if (originalLevel >= 31) {
-                originalExp = 4.5 * originalLevel * originalLevel - 162.5 * originalLevel + 2220;
-                originalExp += player.getExp() * (9 * originalLevel - 158);
-            } else if (originalLevel >= 16) {
-                originalExp = 2.5 * originalLevel * originalLevel - 40.5 * originalLevel + 360;
-                originalExp += player.getExp() * (5 * originalLevel - 38);
-            } else {
-                originalExp = originalLevel * originalLevel + 6 * originalLevel;
-                originalExp += player.getExp() * (2 * originalLevel + 7);
-            }
-
-            originalExp = Math.round(originalExp);
+            int originalExp = Math.round(getExpToLevel(originalLevel) + getExpForProgressToNextLevel(player.getExp(), originalLevel));
 
             int bottleCount = player.getItemInHand().getAmount();
             int numEnchantedBottles = Math.min((int) (originalExp / expPerBottle), bottleCount);
@@ -47,23 +34,12 @@ public final class ExpBottlesListener implements Listener {
                 player.setTotalExperience(0);
 
                 int newTotalExperience = (int) (originalExp - numEnchantedBottles * expPerBottle);
-                int newLevel;
-                double experienceToCurrentLevel;
-
-                if (newTotalExperience >= 1507) {
-                    newLevel = (int) ((Math.sqrt(72 * newTotalExperience - 54215) + 325) / 18);
-                    experienceToCurrentLevel = 4.5 * newLevel * newLevel - 162.5 * newLevel + 2220;
-                } else if (newTotalExperience >= 352) {
-                    newLevel = (int) ((Math.sqrt(40 * newTotalExperience - 7839) + 81) / 10);
-                    experienceToCurrentLevel = 2.5 * newLevel * newLevel - 40.5 * newLevel + 360;
-                } else {
-                    newLevel = (int) (Math.sqrt(newTotalExperience + 9) - 3);
-                    experienceToCurrentLevel = newLevel * newLevel + 6 * newLevel;
-                }
+                int newLevel = getLevelFromExp(newTotalExperience);
+                int experienceToCurrentLevel = Math.round(getExpToLevel(newLevel));
 
                 player.setTotalExperience(newTotalExperience);
                 player.setLevel((int) newLevel);
-                player.setExp((float) ((newTotalExperience - experienceToCurrentLevel) / player.getExpToLevel()));
+                player.setExp(((newTotalExperience - experienceToCurrentLevel) / (float) player.getExpToLevel()));
 
                 player.setItemInHand(new ItemStack(Material.EXP_BOTTLE, numEnchantedBottles));
                 if (bottleCount > numEnchantedBottles) {
@@ -78,5 +54,35 @@ public final class ExpBottlesListener implements Listener {
     @EventHandler
     public void onExpEvent(ExpBottleEvent event) {
         event.setExperience(expPerBottle);
+    }
+
+    private float getExpToLevel(int level) {
+        if (level >= 31) {
+            return 4.5f * level * level - 162.5f * level + 2220f;
+        } else if (level >= 16) {
+            return 2.5f * level * level - 40.5f * level + 360f;
+        } else {
+            return level * level + 6f * level;
+        }
+    }
+
+    private float getExpForProgressToNextLevel(float progress, int originalLevel) {
+        if (originalLevel >= 31) {
+            return progress * (9 * originalLevel - 158);
+        } else if (originalLevel >= 16) {
+            return progress * (5 * originalLevel - 38);
+        } else {
+            return progress * (2 * originalLevel + 7);
+        }
+    }
+
+    private int getLevelFromExp(int exp) {
+        if (exp >= 1507) {
+            return (int) ((Math.sqrt(72 * exp - 54215) + 325) / 18);
+        } else if (exp >= 352) {
+            return (int) ((Math.sqrt(40 * exp - 7839) + 81) / 10);
+        } else {
+            return (int) (Math.sqrt(exp + 9) - 3);
+        }
     }
 }
