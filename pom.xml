@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.amshulman</groupId>
         <artifactId>bukkit-parent</artifactId>
-        <version>0.22</version>
+        <version>0.24</version>
     </parent>
 
     <groupId>ca.mickealn</groupId>
